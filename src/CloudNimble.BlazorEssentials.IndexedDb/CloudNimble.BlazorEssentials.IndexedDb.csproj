@@ -20,6 +20,7 @@
 	</PropertyGroup>
 	
 	<PropertyGroup>
+		<TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
 		<TypeScriptModuleKind>es6</TypeScriptModuleKind>
 		<TypeScriptTarget>es2015</TypeScriptTarget>
 		<TypeScriptOutDir>wwwroot</TypeScriptOutDir>
@@ -48,6 +49,19 @@
 
 	<ItemGroup>
 		<TypeScriptCompile Remove="node_modules\**" />
+		<TypeScriptCompile Include="Scripts\**\*.ts" />
 	</ItemGroup>
+
+	<ItemGroup>
+		<Content Update="wwwroot\**" CopyToOutputDirectory="PreserveNewest" />
+	</ItemGroup>
+
+	<Target Name="CompileTypeScript" BeforeTargets="BeforeBuild;ResolveProjectStaticWebAssets">
+		<Exec Command="npx tsc" WorkingDirectory="$(MSBuildProjectDirectory)" ContinueOnError="false" />
+		<ItemGroup>
+			<Content Include="wwwroot\CloudNimble.BlazorEssentials.IndexedDb.js" />
+			<Content Include="wwwroot\CloudNimble.BlazorEssentials.IndexedDb.js.map" />
+		</ItemGroup>
+	</Target>
 
 </Project>
